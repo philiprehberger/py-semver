@@ -1,5 +1,9 @@
 # philiprehberger-semver
 
+[![Tests](https://github.com/philiprehberger/py-semver/actions/workflows/publish.yml/badge.svg)](https://github.com/philiprehberger/py-semver/actions/workflows/publish.yml)
+[![PyPI version](https://img.shields.io/pypi/v/philiprehberger-semver.svg)](https://pypi.org/project/philiprehberger-semver/)
+[![License](https://img.shields.io/github/license/philiprehberger/py-semver)](LICENSE)
+
 Parse, compare, bump, and validate semantic version strings.
 
 ## Install
