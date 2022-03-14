@@ -24,9 +24,10 @@ classifiers = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/philiprehberger/py-semver"
+Homepage = "https://github.com/philiprehberger/py-semver#readme"
 Repository = "https://github.com/philiprehberger/py-semver"
 Issues = "https://github.com/philiprehberger/py-semver/issues"
+Changelog = "https://github.com/philiprehberger/py-semver/blob/main/CHANGELOG.md"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/philiprehberger_semver"]
