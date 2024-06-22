@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "philiprehberger-semver"
-version = "0.1.6"
+version = "0.1.7"
 description = "Parse, compare, bump, and validate semantic version strings"
 readme = "README.md"
 license = "MIT"
