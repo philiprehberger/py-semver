@@ -94,6 +94,14 @@ next_pre("1.2.3", "beta") # "1.2.4-beta.1"
 | `sort_versions(versions)` | Sort a list of version strings in ascending order |
 | `next_pre(version, prefix)` | Generate the next pre-release version string |
 
+
+## Development
+
+```bash
+pip install -e .
+python -m pytest tests/ -v
+```
+
 ## License
 
 MIT
