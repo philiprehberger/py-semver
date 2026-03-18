@@ -6,7 +6,7 @@
 
 Parse, compare, bump, and validate semantic version strings.
 
-## Install
+## Installation
 
 ```bash
 pip install philiprehberger-semver
