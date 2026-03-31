@@ -2,8 +2,7 @@
 
 [![Tests](https://github.com/philiprehberger/py-semver/actions/workflows/publish.yml/badge.svg)](https://github.com/philiprehberger/py-semver/actions/workflows/publish.yml)
 [![PyPI version](https://img.shields.io/pypi/v/philiprehberger-semver.svg)](https://pypi.org/project/philiprehberger-semver/)
-[![License](https://img.shields.io/github/license/philiprehberger/py-semver)](LICENSE)
-[![Sponsor](https://img.shields.io/badge/sponsor-GitHub%20Sponsors-ec6cb9)](https://github.com/sponsors/philiprehberger)
+[![Last updated](https://img.shields.io/github/last-commit/philiprehberger/py-semver)](https://github.com/philiprehberger/py-semver/commits/main)
 
 Parse, compare, bump, and validate semantic version strings.
 
@@ -95,7 +94,6 @@ next_pre("1.2.3", "beta") # "1.2.4-beta.1"
 | `sort_versions(versions)` | Sort a list of version strings in ascending order |
 | `next_pre(version, prefix)` | Generate the next pre-release version string |
 
-
 ## Development
 
 ```bash
@@ -103,6 +101,24 @@ pip install -e .
 python -m pytest tests/ -v
 ```
 
+## Support
+
+If you find this project useful:
+
+⭐ [Star the repo](https://github.com/philiprehberger/py-semver)
+
+🐛 [Report issues](https://github.com/philiprehberger/py-semver/issues?q=is%3Aissue+is%3Aopen+label%3Abug)
+
+💡 [Suggest features](https://github.com/philiprehberger/py-semver/issues?q=is%3Aissue+is%3Aopen+label%3Aenhancement)
+
+❤️ [Sponsor development](https://github.com/sponsors/philiprehberger)
+
+🌐 [All Open Source Projects](https://philiprehberger.com/open-source-packages)
+
+💻 [GitHub Profile](https://github.com/philiprehberger)
+
+🔗 [LinkedIn Profile](https://www.linkedin.com/in/philiprehberger)
+
 ## License
 
-MIT
+[MIT](LICENSE)
