@@ -74,6 +74,19 @@ is_valid("not-a-version") # False
 sort_versions(["2.0.0", "1.0.0", "1.1.0"])  # ["1.0.0", "1.1.0", "2.0.0"]
 ```
 
+### Range expansion
+
+Get the lower (inclusive) and upper (exclusive) bounds of a range:
+
+```python
+from philiprehberger_semver import expand_range
+
+expand_range("^1.2.3")      # (Version(1,2,3), Version(2,0,0))
+expand_range("~1.2.3")      # (Version(1,2,3), Version(1,3,0))
+expand_range(">=1.0.0")     # (Version(1,0,0), None)
+expand_range(">=1 <2")      # (Version(1,0,0), Version(2,0,0))
+```
+
 ### Pre-release generation
 
 ```python
@@ -93,6 +106,7 @@ next_pre("1.2.3", "beta") # "1.2.4-beta.1"
 | `is_valid(version)` | Check if a string is valid semver |
 | `sort_versions(versions)` | Sort a list of version strings in ascending order |
 | `next_pre(version, prefix)` | Generate the next pre-release version string |
+| `expand_range(range_str)` | Return `(lower_inclusive, upper_exclusive)` bounds of a range |
 
 ## Development
 

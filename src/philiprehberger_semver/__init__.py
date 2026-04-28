@@ -14,6 +14,7 @@ __all__ = [
     "is_valid",
     "sort_versions",
     "next_pre",
+    "expand_range",
 ]
 
 _SEMVER_RE = re.compile(
@@ -251,3 +252,81 @@ def satisfies(version: str, range_str: str) -> bool:
         if not _satisfies_single(v, op, target):
             return False
     return True
+
+
+def expand_range(range_str: str) -> tuple[Version, Version | None]:
+    """Return the inclusive lower bound and exclusive upper bound of a range.
+
+    The upper bound is ``None`` for ranges that are unbounded above (e.g.
+    ``">=1.0.0"``).
+
+    Args:
+        range_str: A semver range expression in any format accepted by
+            :func:`satisfies` — caret (``^1.2.3``), tilde (``~1.2.3``), an exact
+            version, or space-separated comparators.
+
+    Returns:
+        Tuple of ``(lower_inclusive, upper_exclusive)``.
+
+    Raises:
+        ValueError: If the range cannot be parsed or has no lower bound.
+    """
+    range_str = range_str.strip()
+
+    if range_str.startswith("^"):
+        target = parse(range_str[1:])
+        if target.major != 0:
+            upper = Version(target.major + 1, 0, 0)
+        elif target.minor != 0:
+            upper = Version(0, target.minor + 1, 0)
+        else:
+            upper = Version(0, 0, target.patch + 1)
+        return target, upper
+
+    if range_str.startswith("~"):
+        target = parse(range_str[1:])
+        return target, Version(target.major, target.minor + 1, 0)
+
+    tokens = range_str.split()
+    if not tokens:
+        raise ValueError("Empty range")
+
+    # Single-token exact version
+    if len(tokens) == 1:
+        op, target = _parse_comparator(tokens[0])
+        if op == "=":
+            return target, Version(target.major, target.minor, target.patch + 1)
+        if op == ">=":
+            return target, None
+        if op == ">":
+            return Version(target.major, target.minor, target.patch + 1), None
+
+    # Combine AND comparators
+    lower: Version | None = None
+    upper: Version | None = None
+
+    for token in tokens:
+        op, target = _parse_comparator(token)
+        if op == ">=":
+            if lower is None or target > lower:
+                lower = target
+        elif op == ">":
+            candidate = Version(target.major, target.minor, target.patch + 1)
+            if lower is None or candidate > lower:
+                lower = candidate
+        elif op == "<":
+            if upper is None or target < upper:
+                upper = target
+        elif op == "<=":
+            candidate = Version(target.major, target.minor, target.patch + 1)
+            if upper is None or candidate < upper:
+                upper = candidate
+        elif op == "=":
+            return target, Version(target.major, target.minor, target.patch + 1)
+        else:
+            raise ValueError(f"Unsupported operator in range: {op!r}")
+
+    if lower is None:
+        raise ValueError(f"Range has no lower bound: {range_str!r}")
+
+    return lower, upper
