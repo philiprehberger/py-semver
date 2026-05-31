@@ -10,6 +10,8 @@ from philiprehberger_semver import (
     compare,
     expand_range,
     is_valid,
+    latest,
+    latest_stable,
     next_pre,
     parse,
     satisfies,
@@ -179,3 +181,33 @@ class TestExpandRange:
     def test_empty_raises(self):
         with pytest.raises(ValueError):
             expand_range("")
+
+
+class TestLatest:
+    def test_picks_highest(self):
+        assert latest(["1.0.0", "2.0.0", "1.5.0"]) == parse("2.0.0")
+
+    def test_empty_returns_none(self):
+        assert latest([]) is None
+
+    def test_single(self):
+        assert latest(["1.0.0"]) == parse("1.0.0")
+
+    def test_mixed_string_and_version_inputs(self):
+        result = latest(["1.0.0", parse("2.0.0"), "1.5.0"])
+        assert result == parse("2.0.0")
+
+
+class TestLatestStable:
+    def test_filters_prereleases(self):
+        assert latest_stable(["1.0.0", "2.0.0-rc1", "1.5.0"]) == parse("1.5.0")
+
+    def test_all_prereleases_returns_none(self):
+        assert latest_stable(["2.0.0-rc1", "2.0.0-rc2"]) is None
+
+    def test_picks_highest_stable(self):
+        assert latest_stable(["1.0.0", "2.0.0", "1.5.0"]) == parse("2.0.0")
+
+    def test_mixed_string_and_version_inputs(self):
+        result = latest_stable(["1.0.0", parse("2.0.0-rc1"), "1.5.0"])
+        assert result == parse("1.5.0")

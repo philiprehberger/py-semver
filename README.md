@@ -15,7 +15,7 @@ pip install philiprehberger-semver
 ## Usage
 
 ```python
-from philiprehberger_semver import parse, bump, compare, satisfies, is_valid, sort_versions, next_pre
+from philiprehberger_semver import parse, bump, compare, satisfies, is_valid, sort_versions, next_pre, latest, latest_stable
 ```
 
 ### Parsing
@@ -95,6 +95,18 @@ next_pre("1.2.4-rc.1")    # "1.2.4-rc.2"
 next_pre("1.2.3", "beta") # "1.2.4-beta.1"
 ```
 
+### Finding the latest version
+
+```python
+from philiprehberger_semver import latest, latest_stable
+
+latest(["1.0.0", "2.0.0", "1.5.0"])               # Version(2, 0, 0)
+latest([])                                         # None
+
+latest_stable(["1.0.0", "2.0.0-rc1", "1.5.0"])    # Version(1, 5, 0)
+latest_stable(["2.0.0-rc1", "2.0.0-rc2"])         # None
+```
+
 ## API
 
 | Function | Description |
@@ -107,6 +119,8 @@ next_pre("1.2.3", "beta") # "1.2.4-beta.1"
 | `sort_versions(versions)` | Sort a list of version strings in ascending order |
 | `next_pre(version, prefix)` | Generate the next pre-release version string |
 | `expand_range(range_str)` | Return `(lower_inclusive, upper_exclusive)` bounds of a range |
+| `latest(versions)` | Return the highest `Version` from an iterable, or `None` if empty |
+| `latest_stable(versions)` | Return the highest non-prerelease `Version`, or `None` if none exist |
 
 ## Development
 

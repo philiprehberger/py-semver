@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import re
+from collections.abc import Iterable
 from dataclasses import dataclass
 
 __all__ = [
@@ -15,6 +16,8 @@ __all__ = [
     "sort_versions",
     "next_pre",
     "expand_range",
+    "latest",
+    "latest_stable",
 ]
 
 _SEMVER_RE = re.compile(
@@ -330,3 +333,25 @@ def expand_range(range_str: str) -> tuple[Version, Version | None]:
         raise ValueError(f"Range has no lower bound: {range_str!r}")
 
     return lower, upper
+
+
+def latest(versions: Iterable[str | Version]) -> Version | None:
+    """Return the highest version, or ``None`` if the iterable is empty.
+
+    String inputs are parsed via :func:`parse`.  Invalid version strings raise
+    ``ValueError``.
+    """
+    parsed = [v if isinstance(v, Version) else parse(v) for v in versions]
+    if not parsed:
+        return None
+    return max(parsed)
+
+
+def latest_stable(versions: Iterable[str | Version]) -> Version | None:
+    """Return the highest non-prerelease version, or ``None`` if none exist.
+
+    Filters out prereleases (versions with a non-empty pre-release component)
+    before picking the max.
+    """
+    parsed = [v if isinstance(v, Version) else parse(v) for v in versions]
+    return latest(v for v in parsed if not v.pre)

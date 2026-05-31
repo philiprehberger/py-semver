@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.3.0 (2026-05-30)
+
+- Add `latest()` returning the highest version from an iterable
+- Add `latest_stable()` returning the highest non-prerelease version
+
 ## 0.2.0 (2026-04-27)
 
 - Add `expand_range(range_str)` returning the inclusive lower bound and exclusive upper bound of a caret/tilde/comparator range
